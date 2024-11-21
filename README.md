@@ -15,6 +15,19 @@ Based on https://github.com/EyupBunlu/QViT_HEP_ML4Sci
 | measure_query_key(data,parameters,nqubits) | Measures the query-key interactions by encoding input data into a quantum circuit, applying the qk_ansatz, and computing the expectation value on a specific qubit.|
 | measure_value(data,parameters,nqubits)|  Measures the value representation by encoding input data into a quantum circuit, applying the v_ansatz, and computing expectation values across multiple qubits. |
 
+| Function Name  | Description | Example Input  | Example Output |
+| ------------- | ------------- |------------- | ------------- |
+| QLayer.circuit_to_func()  | Turns a a quantum circuit into a function that's compatible with Pytorch | Takes a quantum circuit, an input tensor ([batch_size, dim] for batch_size number of samples with dim features), and parameters ([K, nqubits] for K layers on nqubits qubits)| Returns a PyTorch function that evaluates the quantum circuit for multiple inputs simultaneously  |
+| QLayer.forward  | Computes the forward pass of the quantum layer using inputs and stored parameters | input1 (shape: [batch_size, dim]) | output (shape: [batch_size, dim_out]) |
+
+## Hybrid Encoder Layer Info: 
+| **Process**               | **Description**                                                                                   | **Input**                                                   | **Output**                                                  |  
+|---------------------------|---------------------------------------------------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|  
+| **Data**                  | The initial data like words or images is converted into numerical vectors to be processed.        | Raw data like text or images                              | Numerical vectors representing the data                    |  
+| **LayerNorm**             | Normalizes the data to make the model more stable and efficient by standardizing feature values.  | Numerical vectors from the data phase                      | Normalized vectors with mean 0 and standard deviation 1    |  
+| **Hybrid Multi-Head Attention** | Combines quantum and classical methods to focus on important parts of the data while processing multiple perspectives simultaneously. | Normalized vectors and attention parameters                | Updated vectors highlighting important relationships       |  
+| **MLP (Multi-Layer Perceptron)** | A neural network that refines the updated vectors, extracting deeper patterns.        | Updated vectors from the attention phase                   | Final refined vectors    |  
+
 ## Paper image descriptions
 | Image | Description |
 | :----------------: | :------ |
